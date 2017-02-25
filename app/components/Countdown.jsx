@@ -25,6 +25,12 @@ var Countdown = React.createClass({
 		this.setState({countdownStatus: newStatus});
 	},
 
+	componentWillUnmount: function() {
+		console.log( 'componentDidUnmount' );
+		clearInterval(this.timer);
+		this.timer=undefined;
+	},
+
 	//this function gets called after either props or state variables get updated.
 	componentDidUpdate: function(prevProps, prevState) {
 		if(this.state.countdownStatus !== prevState.countdownStatus) {
@@ -47,6 +53,10 @@ var Countdown = React.createClass({
 			this.setState({
 				count: newCount >= 0 ? newCount : 0
 			});
+
+			if(newCount === 0) {
+				this.setState({countdownStatus: 'stopped'});
+			}
 		}, 1000);
 	},
 	render: function() {
